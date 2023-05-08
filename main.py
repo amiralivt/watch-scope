@@ -29,8 +29,6 @@ changes = {}
 for platform in PLATFORMS:
     data_url = platform['url']
     platform_name = platform.get('name')
-    type = platform.get('type', 'type')
-    target_title = platform.get('scope', 'target')
     valid_types = platform.get('valid_types')
     base_url = platform.get('base_url')
 
@@ -39,11 +37,27 @@ for platform in PLATFORMS:
         data = json.loads(response.text)
         print(f"[+] Load {len(data)} targets from {platform_name}")
         for item in data:
-            name = item.get('attributes').get('name')
-            url = f"{base_url}{item.get('attributes').get('handle')}/"
-            scopes = item.get('relationships').get('structured_scopes').get('data')
-            in_scope = [scope.get('attributes').get('asset_identifier') for scope in scopes 
-                        if scope.get('attributes').get('eligible_for_submission') == True and scope.get('attributes').get('asset_type') in valid_types]
+            if platform_name == 'hackerone':
+                name = item.get('attributes').get('name')
+                url = f"{base_url}{item.get('attributes').get('handle')}/"
+                scopes = item.get('relationships').get('structured_scopes').get('data')
+                in_scope = [scope.get('attributes').get('asset_identifier') for scope in scopes
+                            if scope.get('attributes').get('eligible_for_submission') == True and scope.get('attributes').get('asset_type') in valid_types]
+                
+            elif platform_name == 'bugcrowd':
+                name = item.get('name')
+                url = f"{base_url}{item.get('program_url')}"
+                scopes = item.get('target_groups')
+                in_scope = [target.get('name') for scope in scopes for target in scope.get('targets') if scope.get('in_scope') == True and target.get('category') in valid_types]
+                
+            elif platform_name == 'intigriti':
+                pass
+            
+            elif platform_name == 'yeswehack':
+                pass
+            
+            else:
+                break
 
             if name in newData.keys():
                 newData[name] = {
@@ -63,11 +77,10 @@ for platform in PLATFORMS:
 
                 if len(change_scope) > 0:
                     changes[name] = {'platform': platform_name, 'url': url, 'in_scope': change_scope}
-        
+
     else:
         print(f"[!] Failed to load targets from {platform_name}")
-        
-    
+
 
 if first_pull:
     print(f"[+] DB initial with {len(newData)} targets")
