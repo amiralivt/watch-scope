@@ -51,7 +51,10 @@ for platform in PLATFORMS:
                 in_scope = [target.get('name') for scope in scopes for target in scope.get('targets') if scope.get('in_scope') == True and target.get('category') in valid_types]
                 
             elif platform_name == 'intigriti':
-                pass
+                name = item.get('name')
+                url = f"{base_url}{item.get('companyHandle')}/{item.get('handle')}/"
+                scopes = item.get('domains')
+                in_scope = [domain.get('endpoint') for domain in scopes if domain.get('type') in valid_types]
             
             elif platform_name == 'yeswehack':
                 pass
