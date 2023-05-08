@@ -54,10 +54,13 @@ for platform in PLATFORMS:
                 name = item.get('name')
                 url = f"{base_url}{item.get('companyHandle')}/{item.get('handle')}/"
                 scopes = item.get('domains')
-                in_scope = [domain.get('endpoint') for domain in scopes if domain.get('type') in valid_types]
+                in_scope = [scope.get('endpoint') for domain in scopes if scope.get('type') in valid_types]
             
             elif platform_name == 'yeswehack':
-                pass
+                name = item.get('title')
+                url = f"{base_url}{item.get('slug')}"
+                scopes = item.get('scopes')
+                in_scope = [scope.get('scope') for scope in scopes if scope.get('scope_type') in valid_types]
             
             else:
                 break
