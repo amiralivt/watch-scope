@@ -3,26 +3,27 @@ BASE_DATA_URL = 'https://github.com/Osb0rn3/bugbounty-targets/tree/main/programs
 PLATFORMS = [
     {
         "name": "hackerone",
-        "scope": "asset_identifier",
-        "type": "asset_type",
         "valid_types": ['URL', 'CIDR'],
         "url": f"{BASE_DATA_URL}hackerone.json",
+        "base_url": "https://hackerone.com/",
     },
     {
         "name": "bugcrowd",
         "valid_types": ['website', 'api'],
         "url": f"{BASE_DATA_URL}bugcrowd.json",
+        "base_url": "https://bugcrowd.com/",
     },
     {
         "name": "intigriti",
-        "scope": "endpoint",
-        "valid_types": ['url', 'iprange'],
+        "valid_types": [1, 4],
         "url": f"{BASE_DATA_URL}intigriti.json",
+        "base_url": "https://app.intigriti.com/programs/",
     },
     {
         "name": "yeswehack",
         "valid_types": ['web-application', 'ip-address', 'api'],
         "url": f"{BASE_DATA_URL}yeswehack.json",
+        "base_url": "https://yeswehack.com/programs/",
     },
 ]
 
