@@ -1,4 +1,4 @@
-BASE_DATA_URL = 'https://github.com/Osb0rn3/bugbounty-targets/tree/main/programs'
+BASE_DATA_URL = 'https://github.com/Osb0rn3/bugbounty-targets/raw/main/programs/'
 
 PLATFORMS = [
     {
