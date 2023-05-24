@@ -6,6 +6,14 @@ import json
 from settings import PLATFORMS, TELEGRAM_SEND_URL, CHAT_ID, SEND_NO_CHANGES
 
 
+def escape_text(text):
+    chars = ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!']
+    for char in chars:
+        text = text.replace(char, f"\\{char}")
+    
+    return text
+
+
 def send_notif(text):
     data = {
         'chat_id': CHAT_ID,
@@ -93,10 +101,10 @@ if first_pull:
 elif len(changes) > 0:
     for item in changes:
         text = f"*{item}*\r\n"
-        text += "\r\n".join([f"[More info]({x})" for x in changes.get(item).get('url').split(',')])
+        text += "\r\n".join([f"[More info]({escape_text(x)})" for x in changes.get(item).get('url').split(',')])
         text += "\r\nScope:\r\n"
         text += "```\r\n"
-        text += "\r\n".join(changes.get(item).get('in_scope'))
+        text += escape_text("\r\n".join(changes.get(item).get('in_scope')))
         text += "```\r\n"
         send_notif(text)
 else:
